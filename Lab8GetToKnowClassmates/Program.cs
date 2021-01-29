@@ -11,6 +11,7 @@ namespace Lab8GetToKnowClassmates
             List<string> students = new List<string>() { "Ramon Guarnes", "Antonio Manzari", "Joshua Carolin", "Nick D'Oria", "Jeremiah Wyeth", "Wendi Magee", "Juliana", "Nathaniel Davis", "Tommy Waalkes", "Grace Seymore", "Jeffrey Wohlfield", "Josh Gallentine", "Stephen Jedlicki" };
             List<string> homeTown = new List<string>() { "Tigard, OR", "Beverly Hills, MI", "Novi, MI", "Canton, MI", "Crystal, MI", "Detroit, MI", "Denver, CO", "Berkley, MI", "Raleigh, NC", "Mesa, AZ", "Detroit, MI", "Baldwin, MI", "The Moon" };
             List<string> favoriteFood = new List<string>() { "Burgers", "Focaccia Barese", "Naleśniki", "Tacos", "Burgers", "Salami", "Tacos", "Steak", "Chicken Curry", "Sweet potato fries", "Steak", "Falafel", "Mooncakes" };
+            List<string> homePlanet = new List<string>() { "Earth", "Earth", "Earth", "Earth", "Earth", "Earth", "Earth", "Earth", "Earth", "Earth", "Earth", "Earth", "N/A" };
 
             while (true)
             {
@@ -22,13 +23,14 @@ namespace Lab8GetToKnowClassmates
 
                 Console.WriteLine($"Student {requestedStudentId + 1} is {nameOfRequestedStudent}");
 
-                Console.Write($"What would you like to know about {nameOfRequestedStudent}, their home town or their favorite food? ");
+                Console.Write($"What would you like to know about {nameOfRequestedStudent}, their home town, home planet, or their favorite food? ");
                 int interestInput = InterestValidation();
 
                 string studentsHometown = homeTown[requestedStudentId];
                 string studentsFavoriteFood = favoriteFood[requestedStudentId];
+                string studentsHomePlanet = homePlanet[requestedStudentId];
 
-                DisplayInterests(interestInput, nameOfRequestedStudent, studentsHometown, studentsFavoriteFood);
+                DisplayInterests(interestInput, nameOfRequestedStudent, studentsHometown, studentsFavoriteFood, studentsHomePlanet);
 
                 Console.Write("Would you like to learn about another student? (y/n) ");
                 string anotherStudent = Console.ReadLine().ToLower();
@@ -52,7 +54,7 @@ namespace Lab8GetToKnowClassmates
 
                 try
                 {
-                    if (isNumber && studentId > students.Count || studentId < students.Count)
+                    if (isNumber && studentId > students.Count)
                     {
                         throw new Exception($"Invalid student number, please enter a valid number between (1 - {students.Count}) or the student's full name: ");
                     }
@@ -95,9 +97,13 @@ namespace Lab8GetToKnowClassmates
                     {
                         return 2;
                     }
+                    else if (interest == "home planet" || interest == "homeplanet")
+                    {
+                        return 3;
+                    }
                     else
                     {
-                        throw new Exception("Invalid interest selection, please choose between favorite food or home town: ");
+                        throw new Exception("Invalid interest selection, please choose between favorite food, home town, or home planet: ");
                     }
                 }
                 catch (Exception e)
@@ -108,7 +114,7 @@ namespace Lab8GetToKnowClassmates
             }
         }
 
-        public static void DisplayInterests(int interestInput, string nameOfRequestedStudent, string studentsHometown, string studentsFavoriteFood)
+        public static void DisplayInterests(int interestInput, string nameOfRequestedStudent, string studentsHometown, string studentsFavoriteFood, string studentsHomePlanet)
         {
             while (true)
             {
@@ -120,15 +126,19 @@ namespace Lab8GetToKnowClassmates
                 {
                     Console.WriteLine($"{nameOfRequestedStudent}'s favorite food is {studentsFavoriteFood}");
                 }
+                else if (interestInput == 3)
+                {
+                    Console.WriteLine($"{nameOfRequestedStudent}'s home planet is {studentsHomePlanet}");
+                }
 
                 Console.Write($"Would you like to know more about {nameOfRequestedStudent}? (y/n) ");
                 string goAgain = Console.ReadLine().ToLower();
 
                 if (goAgain == "y")
                 {
-                    Console.Write($"Would you like to know {nameOfRequestedStudent}'s home town or favorite food? ");
+                    Console.Write($"Would you like to know {nameOfRequestedStudent}'s home town, home planet, or favorite food? ");
                     interestInput = InterestValidation();
-                    DisplayInterests(interestInput, nameOfRequestedStudent, studentsHometown, studentsFavoriteFood);
+                    DisplayInterests(interestInput, nameOfRequestedStudent, studentsHometown, studentsFavoriteFood, studentsHomePlanet);
                     break;
                 }
                 else
